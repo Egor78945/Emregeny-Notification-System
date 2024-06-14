@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: org.grpc.app.api_gateway_service.ApiGatewayServiceApplicatio
+ n
+

@@ -5,7 +5,7 @@
     <groupId>org.ens.app</groupId>
     <artifactId>ENS</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <modules>
         <module>discovery-service</module>
