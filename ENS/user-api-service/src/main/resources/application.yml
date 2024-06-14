@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: user-api-service
+
+jwt:
+  secret: jeXWnV9fY7BPLPEuJaBnJVETR1M5pSpXtDmnqy1KK1py+gLvFCMe1u84F8t5ZkNH
+  lifetime: 600000
