@@ -26,10 +26,11 @@ message GetUserDetailsRequest {
 }
 
 message GetUserDetailsResponse {
-  string email = 1;
-  string password = 2;
-  repeated string roles = 3;
-  string reg_date = 4;
+  int64 id = 1;
+  string email = 2;
+  string password = 3;
+  repeated string roles = 4;
+  string reg_date = 5;
 }
 
 message GetUserRolesRequest {
