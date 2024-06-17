@@ -1,6 +1,17 @@
 version: '3.7'
 
 services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_DB: ens
+      POSTGRES_USER: bestuser
+      POSTGRES_PASSWORD: bestuser
+    volumes:
+      - D:\postgres_datapart:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
   discovery-service:
     container_name: discovery-service
@@ -19,3 +30,19 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - discovery-service
+
+  rabbitmq:
+    image: rabbitmq
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=bestuser
+      - RABBITMQ_DEFAULT_PASS=bestuser
+    ports:
+      - "5672:5672"
+
+  user-api-service:
+    build: /user-api-service/.
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - api-gateway-service

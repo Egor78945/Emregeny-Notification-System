@@ -3,10 +3,9 @@ spring:
     name: database-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/ens
+    url: jdbc:postgresql://postgres:5432/ens
     username: bestuser
     password: bestuser
-
   jpa:
     database: postgresql
     show-sql: true
@@ -17,3 +16,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://discovery-service:8761/eureka
+
+server:
+  port: 0

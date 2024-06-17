@@ -1,6 +1,11 @@
 spring:
   application:
     name: user-api-service
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: bestuser
+    password: bestuser
 
 jwt:
   secret: jeXWnV9fY7BPLPEuJaBnJVETR1M5pSpXtDmnqy1KK1py+gLvFCMe1u84F8t5ZkNH
@@ -10,4 +15,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://discovery-service:8761/eureka
+server:
+  port: 0
 

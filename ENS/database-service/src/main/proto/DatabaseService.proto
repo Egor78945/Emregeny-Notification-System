@@ -47,9 +47,9 @@ service UserService {
 }
 
 service PhoneNumberService {
-  rpc get (GetNumberRequest) returns (GetNumberResponse);
+  rpc getNumbers (GetNumberRequest) returns (GetNumberResponse);
 }
 
 service RoleService {
-  rpc get (GetUserRolesRequest) returns (GetUserRolesResponse);
+  rpc getRoles (GetUserRolesRequest) returns (GetUserRolesResponse);
 }
