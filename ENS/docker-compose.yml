@@ -41,8 +41,20 @@ services:
       - "5672:5672"
 
   user-api-service:
+    container_name: user-api-service
     build: /user-api-service/.
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - api-gateway-service
+
+  database-service:
+    container_name: database-service
+    build: database-service/.
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/ens
+      - GRPC-SERVER-PORT=9090
+    depends_on:
+      - api-gateway-service
+      - postgres
