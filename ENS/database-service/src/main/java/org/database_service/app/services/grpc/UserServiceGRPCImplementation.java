@@ -4,6 +4,7 @@ import com.example.grpc.DatabaseService;
 import com.example.grpc.UserServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
+import net.devh.boot.grpc.server.service.GrpcService;
 import org.database_service.app.exceptions.NotFoundException;
 import org.database_service.app.model.entities.Role;
 import org.database_service.app.model.entities.User;
@@ -11,29 +12,28 @@ import org.database_service.app.services.RoleService;
 import org.database_service.app.services.UserService;
 import org.database_service.app.services.converters.RoleConverter;
 import org.database_service.app.services.converters.UserConverter;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
-@Service
 @RequiredArgsConstructor
+@GrpcService
 public class UserServiceGRPCImplementation extends UserServiceGrpc.UserServiceImplBase {
     private final UserService userService;
     private final RoleService roleService;
 
     @Override
     public void saveUser(DatabaseService.SaveUserRequest request, StreamObserver<DatabaseService.SaveUserResponse> responseObserver) {
-        Long savedId = userService.saveUser(UserConverter.convert(request)).getId();
+        Long savedUserId = userService.saveUser(UserConverter.convertSaveRequestToUser(request)).getId();
         roleService
                 .saveRole(RoleConverter
-                        .convert(request)
+                        .convertStringToRole(request.getRolesList())
                         .stream()
-                        .peek(r -> r.setUser_id(savedId))
+                        .peek(r -> r.setUser_id(savedUserId))
                         .toList());
         DatabaseService.SaveUserResponse saveUserResponse = DatabaseService.SaveUserResponse
                 .newBuilder()
-                .setId(savedId)
+                .setId(savedUserId)
                 .build();
         responseObserver.onNext(saveUserResponse);
         responseObserver.onCompleted();
@@ -52,7 +52,7 @@ public class UserServiceGRPCImplementation extends UserServiceGrpc.UserServiceIm
             responseObserver.onCompleted();
         }
 
-        responseObserver.onNext(UserConverter.convertToGetUserDetailsResponse(user, roleList));
+        responseObserver.onNext(UserConverter.convertUserDetailsToGetUserDetailsResponse(user, roleList));
         responseObserver.onCompleted();
     }
 }

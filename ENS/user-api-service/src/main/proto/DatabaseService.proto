@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package com.example.grpc;
+
+message GetNumberRequest {
+  int64 id = 1;
+}
+
+message GetNumberResponse {
+  repeated string number = 1;
+}
+
+message SaveUserRequest {
+  string email = 1;
+  string password = 2;
+  repeated string roles = 3;
+  string reg_date = 4;
+}
+
+message SaveUserResponse {
+  int64 id = 1;
+}
+
+message GetUserDetailsRequest {
+  int64 id = 1;
+}
+
+message GetUserDetailsResponse {
+  int64 id = 1;
+  string email = 2;
+  string password = 3;
+  repeated string roles = 4;
+  string reg_date = 5;
+}
+
+message GetUserRolesRequest {
+  int64 id = 1;
+}
+
+message GetUserRolesResponse {
+  repeated string roles = 1;
+}
+
+service UserService {
+  rpc saveUser (SaveUserRequest) returns (SaveUserResponse);
+  rpc getDetails (GetUserDetailsRequest) returns (GetUserDetailsResponse);
+}
+
+service PhoneNumberService {
+  rpc getNumbers (GetNumberRequest) returns (GetNumberResponse);
+}
+
+service RoleService {
+  rpc getRoles (GetUserRolesRequest) returns (GetUserRolesResponse);
+}

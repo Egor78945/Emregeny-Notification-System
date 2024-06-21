@@ -54,10 +54,8 @@ public class WebSecurityConfiguration {
                 .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/auth").permitAll()
-                        .requestMatchers("/ens/**").hasAnyAuthority("USER", "ADMIN")
-                        .anyRequest()
-                        .fullyAuthenticated())
+                        .requestMatchers("/ens/auth/**").permitAll()
+                        .anyRequest().hasAnyAuthority("USER", "ADMIN"))
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(LogoutConfigurer::permitAll);
         return http.build();

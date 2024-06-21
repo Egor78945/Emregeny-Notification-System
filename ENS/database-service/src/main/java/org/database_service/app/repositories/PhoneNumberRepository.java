@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface PhoneNumberRepository extends JpaRepository<PhoneNumber, Long> {
-    @Query("SELECT n FROM PhoneNumber n JOIN User u ON n.user_id=u WHERE n.user_id=?1")
+    @Query("SELECT n FROM PhoneNumber n JOIN User u ON n.user_id=u.id WHERE n.user_id=?1")
     List<PhoneNumber> findAllByUserId(Long id);
 }

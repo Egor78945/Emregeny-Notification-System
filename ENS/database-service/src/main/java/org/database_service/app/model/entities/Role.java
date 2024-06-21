@@ -19,8 +19,7 @@ public class Role {
     private Long id;
     @Column(name = "role")
     private String role;
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, targetEntity = User.class)
-    @JoinColumn(name = "user_id")
+    @Column(name = "user_id")
     private Long user_id;
 
     public Role(String role){

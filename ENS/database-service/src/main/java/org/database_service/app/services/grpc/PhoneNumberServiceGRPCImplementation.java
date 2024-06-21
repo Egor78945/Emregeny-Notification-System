@@ -4,15 +4,16 @@ import com.example.grpc.DatabaseService;
 import com.example.grpc.PhoneNumberServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
+import net.devh.boot.grpc.server.service.GrpcService;
 import org.database_service.app.model.entities.PhoneNumber;
 import org.database_service.app.services.PhoneNumberService;
 import org.database_service.app.services.converters.PhoneNumberConverter;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 @RequiredArgsConstructor
+@GrpcService
 public class PhoneNumberServiceGRPCImplementation extends PhoneNumberServiceGrpc.PhoneNumberServiceImplBase {
     private final PhoneNumberService phoneNumberService;
 

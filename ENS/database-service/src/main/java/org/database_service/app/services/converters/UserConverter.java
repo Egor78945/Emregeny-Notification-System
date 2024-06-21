@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UserConverter {
 
-    public static User convert(DatabaseService.SaveUserRequest request) {
+    public static User convertSaveRequestToUser(DatabaseService.SaveUserRequest request) {
         return User
                 .builder()
                 .setEmail(request.getEmail())
@@ -17,7 +17,7 @@ public class UserConverter {
                 .build();
     }
 
-    public static DatabaseService.GetUserDetailsResponse convertToGetUserDetailsResponse(User user, List<Role> roles) {
+    public static DatabaseService.GetUserDetailsResponse convertUserDetailsToGetUserDetailsResponse(User user, List<Role> roles) {
         return DatabaseService.GetUserDetailsResponse
                 .newBuilder()
                 .setId(user.getId())

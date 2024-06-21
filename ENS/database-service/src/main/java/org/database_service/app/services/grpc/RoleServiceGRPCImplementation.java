@@ -4,15 +4,15 @@ import com.example.grpc.DatabaseService;
 import com.example.grpc.RoleServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
+import net.devh.boot.grpc.server.service.GrpcService;
 import org.database_service.app.model.entities.Role;
 import org.database_service.app.services.RoleService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
+
 @RequiredArgsConstructor
+@GrpcService
 public class RoleServiceGRPCImplementation extends RoleServiceGrpc.RoleServiceImplBase {
     private final RoleService roleService;
 

@@ -17,7 +17,6 @@ public class PhoneNumber {
     private Long id;
     @Column(name = "number")
     private String number;
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, targetEntity = User.class)
-    @JoinColumn(name = "user_id")
+    @Column(name = "user_id")
     private Long user_id;
 }

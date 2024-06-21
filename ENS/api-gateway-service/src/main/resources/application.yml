@@ -4,8 +4,8 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: user-service
-          uri: lb://user-service
+        - id: user-api-service
+          uri: lb://user-api-service
           predicates:
             - Path=/ens/**
 
