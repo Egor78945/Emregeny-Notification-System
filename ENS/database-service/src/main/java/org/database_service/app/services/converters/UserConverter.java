@@ -30,4 +30,11 @@ public class UserConverter {
                 .setRegDate(user.getRegisterDate())
                 .build();
     }
+
+    public static DatabaseService.GetUserExistsResponse buildGetUserExistsResponse(boolean answer) {
+        return DatabaseService.GetUserExistsResponse
+                .newBuilder()
+                .setExists(answer)
+                .build();
+    }
 }

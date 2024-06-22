@@ -8,11 +8,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.user_api_service.app.configurations.jwt.JWTCore;
+import org.user_api_service.app.exceptions.WrongDataException;
 import org.user_api_service.app.models.requestModels.AuthenticationRequestModel;
 import org.user_api_service.app.models.requestModels.RegistrationRequestModel;
 import org.user_api_service.app.models.requestModels.SaveUserRequestModel;
 import org.user_api_service.app.services.converters.UserConverter;
 import org.user_api_service.app.services.grpc.user_service.UserGRPCService;
+import org.user_api_service.app.services.validators.UserValidationService;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -32,8 +34,11 @@ public class AuthenticationService {
         return jwtCore.generateToken(authentication);
     }
 
-    public Long register(RegistrationRequestModel requestModel) {
-        return userGRPCService.saveUserRequest(UserConverter.convertRegisterModelToSaveRequestModel(requestModel));
+    public Long register(RegistrationRequestModel requestModel) throws WrongDataException {
+        if (UserValidationService.isValidRegistrationRequestModel(requestModel) && !userGRPCService.userExistsRequest(requestModel.getEmail()))
+            return userGRPCService.saveUserRequest(UserConverter.convertRegisterModelToSaveRequestModel(requestModel, passwordEncoder));
+        else
+            throw new WrongDataException("Email or password is invalid");
     }
 
 }

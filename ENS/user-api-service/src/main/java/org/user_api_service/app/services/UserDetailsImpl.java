@@ -19,12 +19,12 @@ public class UserDetailsImpl implements UserDetails {
     private List<UserRole> roles;
     private String registrationDate;
 
-    public UserDetailsImpl(UserDetailsImpl userDetails){
-        this.id = userDetails.getId();
-        this.email = userDetails.getEmail();
-        this.password = userDetails.getPassword();
-        this.roles = userDetails.getRoles();
-        this.registrationDate = userDetails.getRegistrationDate();
+    public UserDetailsImpl(Long id, String email, String password, List<UserRole> roles, String registrationDate) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+        this.registrationDate = registrationDate;
     }
 
     @Override

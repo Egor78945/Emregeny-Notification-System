@@ -31,4 +31,14 @@ public class UserService {
                 .orElseThrow(() ->
                         new NotFoundException(String.format("User with id %s is not found", id)));
     }
+
+    @Transactional
+    public boolean existsUserByEmail(String email){
+        return userRepository.existsUserByEmail(email);
+    }
+
+    @Transactional
+    public User getUserByEmail(String email){
+        return userRepository.findUserByEmail(email);
+    }
 }

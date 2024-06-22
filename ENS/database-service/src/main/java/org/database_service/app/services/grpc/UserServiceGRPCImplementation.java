@@ -41,18 +41,16 @@ public class UserServiceGRPCImplementation extends UserServiceGrpc.UserServiceIm
 
     @Override
     public void getDetails(DatabaseService.GetUserDetailsRequest request, StreamObserver<DatabaseService.GetUserDetailsResponse> responseObserver) {
-        User user = null;
-        List<Role> roleList = null;
-
-        try {
-            user = userService.getUserById(request.getId());
-            roleList = roleService.getByUserId(user.getId());
-        } catch (NotFoundException e) {
-            responseObserver.onError(e);
-            responseObserver.onCompleted();
-        }
+        User user = userService.getUserByEmail(request.getEmail());
+        List<Role> roleList = roleService.getByUserId(user.getId());
 
         responseObserver.onNext(UserConverter.convertUserDetailsToGetUserDetailsResponse(user, roleList));
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void userExists(DatabaseService.GetUserExistsRequest request, StreamObserver<DatabaseService.GetUserExistsResponse> responseObserver){
+        responseObserver.onNext(UserConverter.buildGetUserExistsResponse(userService.existsUserByEmail(request.getEmail())));
         responseObserver.onCompleted();
     }
 }

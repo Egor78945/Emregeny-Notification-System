@@ -22,7 +22,7 @@ message SaveUserResponse {
 }
 
 message GetUserDetailsRequest {
-  int64 id = 1;
+  string email = 1;
 }
 
 message GetUserDetailsResponse {
@@ -41,9 +41,18 @@ message GetUserRolesResponse {
   repeated string roles = 1;
 }
 
+message GetUserExistsRequest {
+  string email = 1;
+}
+
+message GetUserExistsResponse {
+  bool exists = 1;
+}
+
 service UserService {
   rpc saveUser (SaveUserRequest) returns (SaveUserResponse);
   rpc getDetails (GetUserDetailsRequest) returns (GetUserDetailsResponse);
+  rpc userExists (GetUserExistsRequest) returns (GetUserExistsResponse);
 }
 
 service PhoneNumberService {
