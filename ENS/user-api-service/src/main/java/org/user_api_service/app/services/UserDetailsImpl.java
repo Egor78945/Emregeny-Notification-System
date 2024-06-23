@@ -27,6 +27,9 @@ public class UserDetailsImpl implements UserDetails {
         this.registrationDate = registrationDate;
     }
 
+    public UserDetailsImpl() {
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.name())).collect(Collectors.toList());

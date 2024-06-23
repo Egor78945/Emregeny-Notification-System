@@ -1,12 +1,12 @@
 package org.user_api_service.app.services.converters;
 
 import com.example.grpc.DatabaseService;
-import org.apache.catalina.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.user_api_service.app.enums.UserRole;
 import org.user_api_service.app.exceptions.WrongDataException;
 import org.user_api_service.app.models.requestModels.RegistrationRequestModel;
 import org.user_api_service.app.models.requestModels.SaveUserRequestModel;
+import org.user_api_service.app.models.responeModels.User;
 import org.user_api_service.app.services.UserDetailsImpl;
 
 import java.util.ArrayList;
@@ -40,5 +40,9 @@ public class UserConverter {
             roles.add(convertStringToRole(r));
         }
         return roles;
+    }
+
+    public User convertUserDetailsToUserCache(UserDetailsImpl userDetails){
+        return new User(userDetails);
     }
 }

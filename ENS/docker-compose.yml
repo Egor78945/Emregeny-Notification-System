@@ -13,6 +13,14 @@ services:
     ports:
       - "5432:5432"
 
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=1
+
   discovery-service:
     container_name: discovery-service
     build: /discovery-service/.

@@ -19,4 +19,9 @@ public class PhoneNumber {
     private String number;
     @Column(name = "user_id")
     private Long user_id;
+
+    public PhoneNumber(String number, Long user_id) {
+        this.number = number;
+        this.user_id = user_id;
+    }
 }

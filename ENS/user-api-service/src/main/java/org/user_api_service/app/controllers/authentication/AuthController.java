@@ -1,5 +1,6 @@
 package org.user_api_service.app.controllers.authentication;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
     @GetMapping
-    public ResponseEntity<String> login(@RequestBody AuthenticationRequestModel authModel) {
+    public ResponseEntity<String> login(@RequestBody AuthenticationRequestModel authModel) throws JsonProcessingException {
         return ResponseEntity.ok(authenticationService.authenticate(authModel));
     }
 

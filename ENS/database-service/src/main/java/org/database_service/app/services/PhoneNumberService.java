@@ -15,4 +15,16 @@ public class PhoneNumberService {
     public List<PhoneNumber> getByUserId(Long id) {
         return phoneNumberRepository.findAllByUserId(id);
     }
+
+    public Long savePhoneNumber(String email, Long userId) {
+        return phoneNumberRepository.save(new PhoneNumber(email, userId)).getId();
+    }
+
+    public boolean existsByNumberAndUserId(String number, Long id) {
+        return phoneNumberRepository.findPhoneNumberByNumberAndUser_id(number, id) != null;
+    }
+
+    public void deleteByNumberAndUserId(String number, Long id){
+        phoneNumberRepository.deletePhoneNumber(number,id);
+    }
 }
