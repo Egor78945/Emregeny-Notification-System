@@ -3,7 +3,6 @@ package org.user_api_service.app.services.redis;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.support.converter.JacksonUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.user_api_service.app.models.responeModels.User;

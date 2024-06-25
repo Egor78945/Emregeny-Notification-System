@@ -9,7 +9,6 @@ import org.user_api_service.app.exceptions.RequestCancelledException;
 import org.user_api_service.app.exceptions.WrongDataException;
 import org.user_api_service.app.models.requestModels.PhoneNumberRequestModel;
 import org.user_api_service.app.services.PhoneNumberService;
-import org.user_api_service.app.services.UserService;
 
 import java.util.List;
 

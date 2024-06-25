@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.user_api_service.app.exceptions.RequestCancelledException;
 import org.user_api_service.app.exceptions.WrongDataException;
 import org.user_api_service.app.models.requestModels.PhoneNumberRequestModel;
-import org.user_api_service.app.models.responeModels.User;
 import org.user_api_service.app.services.grpc.phone_number_service.PhoneNumberGRPCService;
 import org.user_api_service.app.services.redis.RedisService;
 import org.user_api_service.app.services.validators.PhoneNumberValidationService;
@@ -20,7 +19,6 @@ import java.util.List;
 public class PhoneNumberService {
     private final PhoneNumberGRPCService phoneNumberGRPCService;
     private final RedisService redisService;
-    private final JsonMapper jsonMapper;
 
     public Long save(PhoneNumberRequestModel requestModel) throws JsonProcessingException, WrongDataException {
         Long currentUserId = redisService.getCurrentUser().getId();

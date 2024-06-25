@@ -5,7 +5,6 @@ import com.example.grpc.UserServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.database_service.app.exceptions.NotFoundException;
 import org.database_service.app.model.entities.Role;
 import org.database_service.app.model.entities.User;
 import org.database_service.app.services.RoleService;

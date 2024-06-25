@@ -2,7 +2,6 @@ package org.user_api_service.app.services.grpc.user_service;
 
 import com.example.grpc.DatabaseService;
 import com.example.grpc.UserServiceGrpc;
-import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 import org.user_api_service.app.exceptions.WrongDataException;

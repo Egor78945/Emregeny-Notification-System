@@ -1,9 +1,6 @@
 package org.user_api_service.app.models.requestModels;
 
 import lombok.Data;
-import org.user_api_service.app.enums.UserRole;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
