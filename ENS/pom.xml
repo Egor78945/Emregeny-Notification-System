@@ -12,6 +12,7 @@
         <module>api-gateway-service</module>
         <module>user-api-service</module>
         <module>database-service</module>
+        <module>email-sender-service</module>
     </modules>
 
     <name>ENS</name>

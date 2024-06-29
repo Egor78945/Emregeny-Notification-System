@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: email-sender-service
+
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: bestuser
+    password: bestuser
+    queue:
+      name: email
+      key: send_key
+    exchange:
+      name: topic_exchange
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: egor78396@gmail.com
+    password: wkwwljxvgkhaifve
+    subject: emergency_notification_message
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
+    register-with-eureka: true
+    fetch-registry: false
+
+server:
+  port: 0
