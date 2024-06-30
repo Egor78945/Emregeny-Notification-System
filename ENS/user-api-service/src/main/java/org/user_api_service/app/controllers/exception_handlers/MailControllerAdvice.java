@@ -6,13 +6,13 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.user_api_service.app.annotations.PhoneNumberControllerExceptionHandler;
+import org.user_api_service.app.annotations.MailControllerExceptionHandler;
 import org.user_api_service.app.exceptions.RequestCancelledException;
 import org.user_api_service.app.exceptions.WrongDataException;
 
-@ControllerAdvice(annotations = PhoneNumberControllerExceptionHandler.class)
+@ControllerAdvice(annotations = MailControllerExceptionHandler.class)
 @Slf4j
-public class PhoneNumberControllerAdvice {
+public class MailControllerAdvice {
     @ExceptionHandler(JsonProcessingException.class)
     public ResponseEntity<String> jsonProcessingExceptionHandler(Exception e) {
         log.error(e.getMessage());

@@ -2,29 +2,29 @@ syntax = "proto3";
 
 package com.example.grpc;
 
-message GetNumberRequest {
+message GetMailRequest {
   int64 id = 1;
 }
 
-message GetNumberResponse {
-  repeated string number = 1;
+message GetMailResponse {
+  repeated string mail = 1;
 }
 
-message GetNumberExistsRequest {
+message GetMailExistsRequest {
   int64 id = 1;
-  string number = 2;
+  string mail = 2;
 }
 
-message GetNumberExistsResponse {
+message GetMailExistsResponse {
   bool exists = 1;
 }
 
-message AddNumberRequest {
+message AddMailRequest {
   int64 id = 1;
-  string number = 2;
+  string mail = 2;
 }
 
-message AddNumberResponse {
+message AddMailResponse {
   int64 id = 1;
 }
 
@@ -67,12 +67,12 @@ message GetUserExistsResponse {
   bool exists = 1;
 }
 
-message DeletePhoneNumberRequest {
+message DeleteMailRequest {
   int64 id = 1;
-  string number = 2;
+  string mail = 2;
 }
 
-message DeletePhoneNumberResponse {
+message DeleteMailResponse {
   int64 id = 1;
 }
 
@@ -82,11 +82,11 @@ service UserService {
   rpc userExists (GetUserExistsRequest) returns (GetUserExistsResponse);
 }
 
-service PhoneNumberService {
-  rpc getNumbers (GetNumberRequest) returns (GetNumberResponse);
-  rpc saveNumber (AddNumberRequest) returns (AddNumberResponse);
-  rpc numberExists (GetNumberExistsRequest) returns (GetNumberExistsResponse);
-  rpc deleteNumber (DeletePhoneNumberRequest) returns (DeletePhoneNumberResponse);
+service MailService {
+  rpc getMails (GetMailRequest) returns (GetMailResponse);
+  rpc saveMail (AddMailRequest) returns (AddMailResponse);
+  rpc mailExists (GetMailExistsRequest) returns (GetMailExistsResponse);
+  rpc deleteMail (DeleteMailRequest) returns (DeleteMailResponse);
 }
 
 service RoleService {

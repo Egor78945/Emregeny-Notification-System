@@ -6,22 +6,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "phone_numbers")
+@Table(name = "mails")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PhoneNumber {
+public class Mail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "number")
-    private String number;
+    @Column(name = "mail")
+    private String mail;
     @Column(name = "user_id")
     private Long user_id;
 
-    public PhoneNumber(String number, Long user_id) {
-        this.number = number;
+    public Mail(String mail, Long user_id) {
+        this.mail = mail;
         this.user_id = user_id;
     }
 }

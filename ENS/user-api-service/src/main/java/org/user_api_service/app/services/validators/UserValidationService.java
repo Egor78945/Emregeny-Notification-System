@@ -6,20 +6,7 @@ import org.user_api_service.app.models.requestModels.RegistrationRequestModel;
 @Service
 public class UserValidationService {
     public static boolean isValidRegistrationRequestModel(RegistrationRequestModel requestModel){
-        return isValidEmail(requestModel.getEmail()) && isValidPassword(requestModel.getPassword());
-    }
-    private static boolean isValidEmail(String email){
-        if(email.endsWith("@gmail.com") || email.endsWith("@mail.ru")){
-            String[] arr = email.split("@");
-            if(arr.length == 2 && arr[0].length() > 5){
-                for(char c : arr[0].toCharArray()){
-                    if(!Character.isDigit(c) && !Character.isLetter(c))
-                        return false;
-                }
-                return true;
-            }
-        }
-        return false;
+        return MailValidationService.isValidEmail(requestModel.getEmail()) && isValidPassword(requestModel.getPassword());
     }
     private static boolean isValidPassword(String password){
         if(password.length() >= 8){

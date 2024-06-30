@@ -6,10 +6,10 @@ databaseChangeLog:
         - onFail: MARK_RAN
         - not:
             tableExists:
-              tableName: phone_numbers
+              tableName: mails
       changes:
         - createTable:
-            tableName: phone_numbers
+            tableName: mails
             columns:
               - column:
                   name: id
@@ -18,14 +18,14 @@ databaseChangeLog:
                     primaryKey: true
                   autoIncrement: true
               - column:
-                  name: number
-                  type: varchar(11)
+                  name: mail
+                  type: varchar(50)
                   constraints:
                     nullable: false
               - column:
                   name: user_id
                   type: bigint
                   constraints:
-                    foreignKeyName: numbers-users-fk
+                    foreignKeyName: mails-users-fk
                     referencedTableName: users
                     referencedColumnNames: id
