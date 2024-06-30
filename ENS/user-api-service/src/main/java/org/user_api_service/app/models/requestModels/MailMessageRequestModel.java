@@ -1,15 +1,15 @@
-package org.example.email_sender_service.models.requestModels;
+package org.user_api_service.app.models.requestModels;
 
-public class EmailMessage {
+public class MailMessageRequestModel {
     private String to;
     private String message;
 
-    public EmailMessage(String to, String message) {
+    public MailMessageRequestModel(String to, String message) {
         this.to = to;
         this.message = message;
     }
 
-    public EmailMessage() {
+    public MailMessageRequestModel() {
     }
 
     public String getTo() {

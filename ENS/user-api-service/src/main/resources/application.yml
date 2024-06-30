@@ -6,6 +6,12 @@ spring:
     port: 5672
     username: bestuser
     password: bestuser
+    queue:
+      name: email
+      key: send_key
+    exchange:
+      name: topic_exchange
+
   data:
     redis:
       host: redis

@@ -1,6 +1,6 @@
 package org.example.email_sender_service.services.mail;
 
-import org.example.email_sender_service.models.requestModels.EmailMessage;
+import org.example.email_sender_service.models.requestModels.EmailMessageRequestModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,12 +18,12 @@ public class MailMessageSender {
         this.SUBJECT = SUBJECT;
     }
 
-    public void send(EmailMessage emailMessage){
+    public void send(EmailMessageRequestModel emailMessageRequestModel){
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom(FROM);
         simpleMailMessage.setSubject(SUBJECT);
-        simpleMailMessage.setText(emailMessage.getMessage());
-        simpleMailMessage.setTo(emailMessage.getTo());
+        simpleMailMessage.setText(emailMessageRequestModel.getMessage());
+        simpleMailMessage.setTo(emailMessageRequestModel.getTo());
 
         mailSender.send(simpleMailMessage);
     }
