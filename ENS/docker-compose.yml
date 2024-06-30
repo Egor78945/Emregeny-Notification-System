@@ -54,6 +54,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
+      - rabbitmq
       - api-gateway-service
       - database-service
 
@@ -66,3 +67,11 @@ services:
     depends_on:
       - api-gateway-service
       - postgres
+
+  email-sender-service:
+    container_name: email-sender-service
+    build: email-sender-service/.
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - user-api-service

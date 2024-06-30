@@ -17,7 +17,7 @@ public class MailMessageProducer {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void sendMessage(MailMessageRequestModel mailMessageProducer) {
-        rabbitTemplate.convertAndSend(EXCHANGE_NAME, QUEUE_ROUTING_KEY, mailMessageProducer);
+    public void sendMessage(MailMessageRequestModel mailMessageRequestModel) {
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, QUEUE_ROUTING_KEY, mailMessageRequestModel);
     }
 }

@@ -19,20 +19,26 @@ import java.util.List;
 public class MailController {
     private final MailService mailService;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<String> addMail(@RequestBody MailRequestModel requestModel) throws JsonProcessingException, WrongDataException {
         Long id = mailService.save(requestModel);
         return ResponseEntity.ok(String.format("Mail %s have been saved by id %s", requestModel.getMail(), id));
     }
 
-    @GetMapping
+    @GetMapping("/get")
     public ResponseEntity<List<String>> getMyMails() throws RequestCancelledException, JsonProcessingException {
         return ResponseEntity.ok(mailService.getAll());
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public ResponseEntity<String> deleteMail(@RequestParam("mail") String mail) throws RequestCancelledException, JsonProcessingException {
         mailService.delete(mail);
         return ResponseEntity.ok(String.format("Mail %s has been deleted", mail));
+    }
+
+    @PostMapping("/send")
+    public ResponseEntity<String> send(@RequestParam("message") String message) throws JsonProcessingException {
+        mailService.send(message);
+        return ResponseEntity.ok("Message has been sent to all your mails");
     }
 }

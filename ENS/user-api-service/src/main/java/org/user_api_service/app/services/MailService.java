@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import org.user_api_service.app.exceptions.RequestCancelledException;
 import org.user_api_service.app.exceptions.WrongDataException;
 import org.user_api_service.app.models.requestModels.MailRequestModel;
+import org.user_api_service.app.services.converters.MailConverter;
 import org.user_api_service.app.services.grpc.phone_number_service.MailGRPCService;
+import org.user_api_service.app.services.rabbitmq.producers.MailMessageProducer;
 import org.user_api_service.app.services.redis.RedisService;
 import org.user_api_service.app.services.validators.MailValidationService;
 
@@ -17,6 +19,7 @@ import java.util.List;
 public class MailService {
     private final MailGRPCService mailGRPCService;
     private final RedisService redisService;
+    private final MailMessageService mailMessageService;
 
     public Long save(MailRequestModel requestModel) throws JsonProcessingException, WrongDataException {
         Long currentUserId = redisService.getCurrentUser().getId();
@@ -40,5 +43,11 @@ public class MailService {
             return mailGRPCService.deleteMail(mail, currentUserId);
         } else
             throw new RequestCancelledException(String.format("Mail %s is not found", mail));
+    }
+
+    public void send(String message) throws JsonProcessingException {
+        Long currentUserId = redisService.getCurrentUser().getId();
+        List<String> mails = mailGRPCService.getMailsRequest(currentUserId);
+        mailMessageService.sendMessageToMail(MailConverter.convertToMailMessageRequestModel(mails, message));
     }
 }

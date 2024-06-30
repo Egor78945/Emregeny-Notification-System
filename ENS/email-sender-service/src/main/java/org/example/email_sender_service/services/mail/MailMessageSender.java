@@ -12,7 +12,7 @@ public class MailMessageSender {
     private final String SUBJECT;
     private final JavaMailSender mailSender;
 
-    public MailMessageSender(@Value("${spring.mail.from}") String FROM, @Value("${spring.mail.subject}") String SUBJECT, JavaMailSender mailSender) {
+    public MailMessageSender(@Value("${spring.mail.username}") String FROM, @Value("${spring.mail.subject}") String SUBJECT, JavaMailSender mailSender) {
         this.FROM = FROM;
         this.mailSender = mailSender;
         this.SUBJECT = SUBJECT;
