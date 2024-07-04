@@ -7,8 +7,10 @@ import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.database_service.app.model.entities.Role;
 import org.database_service.app.services.RoleService;
+import org.database_service.app.services.converters.RoleConverter;
 
-import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 @RequiredArgsConstructor
@@ -18,17 +20,21 @@ public class RoleServiceGRPCImplementation extends RoleServiceGrpc.RoleServiceIm
 
     @Override
     public void getRoles(DatabaseService.GetUserRolesRequest request, StreamObserver<DatabaseService.GetUserRolesResponse> rolesObserver) {
-        List<Role> roles = roleService.getByUserId(request.getId());
+        CompletableFuture<DatabaseService.GetUserRolesResponse> getRolesResponse = CompletableFuture
+                .supplyAsync(() ->
+                        roleService.getByUserId(request.getId()))
+                .thenApplyAsync(r ->
+                        r.stream()
+                                .map(Role::getRole)
+                                .toList())
+                .thenApplyAsync(RoleConverter::buildUserRolesResponse);
 
-        DatabaseService.GetUserRolesResponse response = DatabaseService.GetUserRolesResponse
-                .newBuilder()
-                .addAllRoles(roles
-                        .stream()
-                        .map(r -> r.getRole())
-                        .toList())
-                .build();
+        try {
+            rolesObserver.onNext(getRolesResponse.get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
 
-        rolesObserver.onNext(response);
         rolesObserver.onCompleted();
     }
 }

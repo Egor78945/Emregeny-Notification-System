@@ -37,4 +37,11 @@ public class UserConverter {
                 .setExists(answer)
                 .build();
     }
+
+    public static DatabaseService.SaveUserResponse buildSaveUserResponse(Long id) {
+        return DatabaseService.SaveUserResponse
+                .newBuilder()
+                .setId(id)
+                .build();
+    }
 }

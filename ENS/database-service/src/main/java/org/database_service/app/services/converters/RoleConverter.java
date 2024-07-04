@@ -1,5 +1,6 @@
 package org.database_service.app.services.converters;
 
+import com.example.grpc.DatabaseService;
 import org.database_service.app.model.entities.Role;
 
 import java.util.List;
@@ -14,5 +15,12 @@ public class RoleConverter {
                 .stream()
                 .map(r -> convertStringToRole(r))
                 .toList();
+    }
+
+    public static DatabaseService.GetUserRolesResponse buildUserRolesResponse(List<String> roles){
+        return DatabaseService.GetUserRolesResponse
+                .newBuilder()
+                .addAllRoles(roles)
+                .build();
     }
 }

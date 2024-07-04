@@ -5,11 +5,11 @@ import com.example.grpc.MailServiceGrpc;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.database_service.app.model.entities.Mail;
 import org.database_service.app.services.MailService;
 import org.database_service.app.services.converters.MailConverter;
 
-import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 @RequiredArgsConstructor
@@ -19,53 +19,63 @@ public class MailServiceGRPCImplementation extends MailServiceGrpc.MailServiceIm
 
     @Override
     public void getMails(DatabaseService.GetMailRequest request, StreamObserver<DatabaseService.GetMailResponse> responseObserver) {
-        List<Mail> mails = mailService.getByUserId(request.getId());
+        CompletableFuture<DatabaseService.GetMailResponse> mailsResponse = CompletableFuture
+                .supplyAsync(() ->
+                        mailService.getByUserId(request.getId()))
+                .thenApplyAsync(MailConverter::convertMailToString)
+                .thenApplyAsync(MailConverter::convertMailsToMailResponse);
 
-        DatabaseService.GetMailResponse response = DatabaseService.GetMailResponse
-                .newBuilder()
-                .addAllMail(MailConverter.convertToString(mails))
-                .build();
+        try {
+            responseObserver.onNext(mailsResponse.get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
 
-        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 
     @Override
     public void saveMail(DatabaseService.AddMailRequest request, StreamObserver<DatabaseService.AddMailResponse> responseObserver) {
-        Long mailId = mailService.saveMail(request.getMail(), request.getId());
+        CompletableFuture<DatabaseService.AddMailResponse> mailResponse = CompletableFuture
+                .supplyAsync(() ->
+                        mailService.saveMail(request.getMail(), request.getId()))
+                .thenApplyAsync(MailConverter::convertMailIdToSaveMailResponse);
 
-        DatabaseService.AddMailResponse response = DatabaseService.AddMailResponse
-                .newBuilder()
-                .setId(mailId)
-                .build();
+        try {
+            responseObserver.onNext(mailResponse.get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
 
-        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 
     @Override
     public void mailExists(DatabaseService.GetMailExistsRequest request, StreamObserver<DatabaseService.GetMailExistsResponse> responseObserver) {
-        boolean exists = mailService.existsByMailAndUserId(request.getMail(), request.getId());
+        CompletableFuture<DatabaseService.GetMailExistsResponse> existsResponse = CompletableFuture.supplyAsync(() -> mailService.existsByMailAndUserId(request.getMail(), request.getId())).thenApplyAsync(MailConverter::convertExistsToMailExistsResponse);
 
-        DatabaseService.GetMailExistsResponse response = DatabaseService.GetMailExistsResponse
-                .newBuilder()
-                .setExists(exists)
-                .build();
+        try {
+            responseObserver.onNext(existsResponse.get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
 
-        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 
     @Override
-    public void deleteMail(DatabaseService.DeleteMailRequest request, StreamObserver<DatabaseService.DeleteMailResponse> responseObserver){
-        mailService.deleteByMailAndUserId(request.getMail(), request.getId());
+    public void deleteMail(DatabaseService.DeleteMailRequest request, StreamObserver<DatabaseService.DeleteMailResponse> responseObserver) {
+        CompletableFuture<DatabaseService.DeleteMailResponse> deleteResponse = CompletableFuture.supplyAsync(() -> {
+            mailService.deleteByMailAndUserId(request.getMail(), request.getId());
+            return request.getId();
+        }).thenApplyAsync(MailConverter::convertMailIdToDeleteMailResponse);
 
-        DatabaseService.DeleteMailResponse response = DatabaseService.DeleteMailResponse
-                .newBuilder()
-                .setId(request.getId())
-                .build();
+        try {
+            responseObserver.onNext(deleteResponse.get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
 
-        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 }

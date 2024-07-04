@@ -13,6 +13,8 @@ import org.database_service.app.services.converters.RoleConverter;
 import org.database_service.app.services.converters.UserConverter;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 @RequiredArgsConstructor
@@ -23,33 +25,59 @@ public class UserServiceGRPCImplementation extends UserServiceGrpc.UserServiceIm
 
     @Override
     public void saveUser(DatabaseService.SaveUserRequest request, StreamObserver<DatabaseService.SaveUserResponse> responseObserver) {
-        Long savedUserId = userService.saveUser(UserConverter.convertSaveRequestToUser(request)).getId();
-        roleService
-                .saveRole(RoleConverter
-                        .convertStringToRole(request.getRolesList())
-                        .stream()
-                        .peek(r -> r.setUser_id(savedUserId))
-                        .toList());
-        DatabaseService.SaveUserResponse saveUserResponse = DatabaseService.SaveUserResponse
-                .newBuilder()
-                .setId(savedUserId)
-                .build();
-        responseObserver.onNext(saveUserResponse);
+        CompletableFuture<DatabaseService.SaveUserResponse> saveUserResponse = CompletableFuture
+                .supplyAsync(() ->
+                        userService.saveUser(UserConverter
+                                .convertSaveRequestToUser(request)))
+                .thenApplyAsync(u -> {
+                    roleService.saveRole(RoleConverter
+                            .convertStringToRole(request
+                                    .getRolesList())
+                            .stream()
+                            .peek(r -> r.setUser_id(u.getId()))
+                            .toList());
+                    return u.getId();
+                })
+                .thenApplyAsync(UserConverter::buildSaveUserResponse);
+
+        try {
+            responseObserver.onNext(saveUserResponse.get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+
         responseObserver.onCompleted();
     }
 
     @Override
     public void getDetails(DatabaseService.GetUserDetailsRequest request, StreamObserver<DatabaseService.GetUserDetailsResponse> responseObserver) {
-        User user = userService.getUserByEmail(request.getEmail());
-        List<Role> roleList = roleService.getByUserId(user.getId());
+        User user;
+        List<Role> roles;
 
-        responseObserver.onNext(UserConverter.convertUserDetailsToGetUserDetailsResponse(user, roleList));
+        try {
+            user = CompletableFuture.supplyAsync(() -> userService.getUserByEmail(request.getEmail())).get();
+            roles = CompletableFuture.supplyAsync(() -> roleService.getByUserId(user.getId())).get();
+            responseObserver.onNext(UserConverter.convertUserDetailsToGetUserDetailsResponse(user, roles));
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+
         responseObserver.onCompleted();
     }
 
     @Override
-    public void userExists(DatabaseService.GetUserExistsRequest request, StreamObserver<DatabaseService.GetUserExistsResponse> responseObserver){
-        responseObserver.onNext(UserConverter.buildGetUserExistsResponse(userService.existsUserByEmail(request.getEmail())));
+    public void userExists(DatabaseService.GetUserExistsRequest request, StreamObserver<DatabaseService.GetUserExistsResponse> responseObserver) {
+        CompletableFuture<DatabaseService.GetUserExistsResponse> responseFuture = CompletableFuture
+                .supplyAsync(() ->
+                        userService.existsUserByEmail(request.getEmail()))
+                .thenApplyAsync(UserConverter::buildGetUserExistsResponse);
+
+        try {
+            responseObserver.onNext(responseFuture.get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+
         responseObserver.onCompleted();
     }
 }
