@@ -10,6 +10,8 @@ import org.user_api_service.app.annotations.MailControllerExceptionHandler;
 import org.user_api_service.app.exceptions.RequestCancelledException;
 import org.user_api_service.app.exceptions.WrongDataException;
 
+import java.util.concurrent.ExecutionException;
+
 @ControllerAdvice(annotations = MailControllerExceptionHandler.class)
 @Slf4j
 public class MailControllerAdvice {
@@ -29,5 +31,17 @@ public class MailControllerAdvice {
     public ResponseEntity<String> requestCancelledExceptionHandler(Exception e) {
         log.error(e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatusCode.valueOf(400));
+    }
+
+    @ExceptionHandler(ExecutionException.class)
+    public ResponseEntity<String> executionExceptionHandler(Exception e){
+        log.error(e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatusCode.valueOf(505));
+    }
+
+    @ExceptionHandler(InterruptedException.class)
+    public ResponseEntity<String> interruptedExceptionHandler(Exception e){
+        log.error(e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatusCode.valueOf(505));
     }
 }

@@ -11,6 +11,7 @@ import org.user_api_service.app.models.requestModels.MailRequestModel;
 import org.user_api_service.app.services.MailService;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/ens/mail")
@@ -26,8 +27,13 @@ public class MailController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<String>> getMyMails() throws RequestCancelledException, JsonProcessingException {
-        return ResponseEntity.ok(mailService.getAll());
+    public ResponseEntity<List<String>> getMyMails() throws RequestCancelledException, JsonProcessingException, ExecutionException, InterruptedException {
+        List<String> mails = mailService.getAll().get();
+        if(!mails.isEmpty()){
+            return ResponseEntity.ok(mails);
+        } else {
+            throw new RequestCancelledException("You have not any mails");
+        }
     }
 
     @DeleteMapping("/delete")
@@ -37,8 +43,8 @@ public class MailController {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<String> send(@RequestParam("message") String message) throws JsonProcessingException {
-        mailService.send(message);
+    public ResponseEntity<String> send(@RequestParam("message") String message) throws JsonProcessingException, ExecutionException, InterruptedException {
+        mailService.send(message).get();
         return ResponseEntity.ok("Message has been sent to all your mails");
     }
 }
