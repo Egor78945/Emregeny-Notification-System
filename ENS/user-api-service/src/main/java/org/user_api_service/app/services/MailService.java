@@ -28,7 +28,7 @@ public class MailService {
             redisService.saveToList("mails", requestModel.getMail());
             return mailGRPCService.addMailRequest(requestModel, currentUserId);
         } else
-            throw new WrongDataException("Mail format is invalid or this mail is already in your list");
+            throw new WrongDataException("Mail format is invalid or the mail is already in your list");
     }
 
     public CompletableFuture<List<String>> getAll() {
