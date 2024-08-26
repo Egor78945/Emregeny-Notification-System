@@ -4,7 +4,7 @@ public class MailValidationService {
     public static boolean isValidEmail(String email){
         if(email.endsWith("@gmail.com") || email.endsWith("@mail.ru")){
             String[] arr = email.split("@");
-            if(arr.length == 2 && arr[0].length() > 5){
+            if(arr.length == 2 && arr[0].length() > 5 && arr[0].length() <= 129){
                 for(char c : arr[0].toCharArray()){
                     if(!Character.isDigit(c) && !Character.isLetter(c))
                         return false;

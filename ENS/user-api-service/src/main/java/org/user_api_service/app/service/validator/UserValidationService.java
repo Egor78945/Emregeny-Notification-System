@@ -8,8 +8,8 @@ public class UserValidationService {
     public static boolean isValidRegistrationRequestModel(RegistrationRequestModel requestModel){
         return MailValidationService.isValidEmail(requestModel.getEmail()) && isValidPassword(requestModel.getPassword());
     }
-    private static boolean isValidPassword(String password){
-        if(password.length() >= 8){
+    public static boolean isValidPassword(String password){
+        if(password.length() >= 8 && password.length() <= 150 && !password.isEmpty() && !password.isBlank()){
             int letCount = 0;
             int digCount = 0;
             for(char c : password.toCharArray()){
