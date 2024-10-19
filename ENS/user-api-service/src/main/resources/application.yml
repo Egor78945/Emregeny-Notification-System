@@ -3,34 +3,35 @@ spring:
     name: user-api-service
   rabbitmq:
     host: rabbitmq
-    port: 5672
-    username: bestuser
-    password: bestuser
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_DEFAULT_USER}
+    password: ${RABBITMQ_DEFAULT_PASS}
     queue:
-      name: email
-      key: send_key
+      name: ${RABBITMQ_QUEUE_EMAIL_NAME}
+      key: ${RABBITMQ_QUEUE_EMAIL_KEY}
     exchange:
-      name: topic_exchange
+      name: ${RABBITMQ_EXCHANGE_NAME}
 
   data:
     redis:
       host: redis
-      port: 6379
-      timeout: 100000
+      port: ${REDIS_PORT}
+      timeout: ${REDIS_TIMEOUT}
 
 jwt:
-  secret: jeXWnV9fY7BPLPEuJaBnJVETR1M5pSpXtDmnqy1KK1py+gLvFCMe1u84F8t5ZkNH
-  lifetime: 600000
+  secret: ${JWT_SECRET}
+  lifetime: ${JWT_LIFETIME}
 
 eureka:
   client:
     service-url:
-      defaultZone: http://discovery-service:8761/eureka
+      defaultZone: http://discovery-service:${SERVICE_DISCOVERY_PORT}/eureka
     register-with-eureka: true
     fetch-registry: true
 
 server:
-  port: 0
+  port: ${USER_API_SERVICE_PORT}
+
 grpc:
   client:
     grpc-service:

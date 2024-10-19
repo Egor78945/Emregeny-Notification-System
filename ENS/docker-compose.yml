@@ -24,6 +24,8 @@ services:
   discovery-service:
     container_name: discovery-service
     build: /discovery-service/.
+    environment:
+      - SERVICE_DISCOVERY_PORT=${SERVICE_DISCOVERY_PORT}
     ports:
       - ${SERVICE_DISCOVERY_PORT}:${SERVICE_DISCOVERY_PORT}
 
@@ -49,6 +51,20 @@ services:
   user-api-service:
     container_name: user-api-service
     build: /user-api-service/.
+    environment:
+      - RABBITMQ_QUEUE_EMAIL_NAME=${RABBITMQ_QUEUE_EMAIL_NAME}
+      - RABBITMQ_QUEUE_EMAIL_KEY=${RABBITMQ_QUEUE_EMAIL_KEY}
+      - RABBITMQ_EXCHANGE_NAME=${RABBITMQ_EXCHANGE_NAME}
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - SERVICE_DISCOVERY_PORT=${SERVICE_DISCOVERY_PORT}
+      - USER_API_SERVICE_PORT=0
+      - REDIS_PORT=6379
+      - REDIS_DATABASE_COUNT=1
+      - REDIS_TIMEOUT=100000
+      - JWT_SECRET=jeXWnV9fY7BPLPEuJaBnJVETR1M5pSpXtDmnqy1KK1py+gLvFCMe1u84F8t5ZkNH
+      - JWT_LIFETIME=600000
     depends_on:
       - rabbitmq
       - api-gateway-service
@@ -58,7 +74,13 @@ services:
     container_name: database-service
     build: database-service/.
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/ens
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - SERVICE_DISCOVERY_PORT=${SERVICE_DISCOVERY_PORT}
+      - DATABASE_SERVICE_PORT=${DATABASE_SERVICE_PORT}
+      - DATABASE_SERVICE_GRPC_SERVER_PORT=${DATABASE_SERVICE_GRPC_SERVER_PORT}
     depends_on:
       - api-gateway-service
       - postgres
@@ -66,5 +88,19 @@ services:
   email-sender-service:
     container_name: email-sender-service
     build: email-sender-service/.
+    environment:
+      - RABBITMQ_QUEUE_EMAIL_NAME=${RABBITMQ_QUEUE_EMAIL_NAME}
+      - RABBITMQ_QUEUE_EMAIL_KEY=${RABBITMQ_QUEUE_EMAIL_KEY}
+      - RABBITMQ_EXCHANGE_NAME=${RABBITMQ_EXCHANGE_NAME}
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - EMAIL_SENDER_SERVICE_PORT=${EMAIL_SENDER_SERVICE_PORT}
+      - SPRING_MAIL_HOST=${SPRING_MAIL_HOST}
+      - SPRING_MAIL_PORT=${SPRING_MAIL_PORT}
+      - SPRING_MAIL_USERNAME=${SPRING_MAIL_USERNAME}
+      - SPRING_MAIL_PASSWORD=${SPRING_MAIL_PASSWORD}
+      - SPRING_MAIL_SUBJECT=${SPRING_MAIL_SUBJECT}
+      - SERVICE_DISCOVERY_PORT=${SERVICE_DISCOVERY_PORT}
     depends_on:
       - user-api-service

@@ -4,21 +4,21 @@ spring:
 
   rabbitmq:
     host: rabbitmq
-    port: 5672
-    username: bestuser
-    password: bestuser
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_DEFAULT_USER}
+    password: ${RABBITMQ_DEFAULT_PASS}
     queue:
-      name: email
-      key: send_key
+      name: ${RABBITMQ_QUEUE_EMAIL_NAME}
+      key: ${RABBITMQ_QUEUE_EMAIL_KEY}
     exchange:
-      name: topic_exchange
+      name: ${RABBITMQ_EXCHANGE_NAME}
 
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: egor78396@gmail.com
-    password: wkwwljxvgkhaifve
-    subject: emergency_notification_message
+    host: ${SPRING_MAIL_HOST}
+    port: ${SPRING_MAIL_PORT}
+    username: ${SPRING_MAIL_USERNAME}
+    password: ${SPRING_MAIL_PASSWORD}
+    subject: ${SPRING_MAIL_SUBJECT}
     properties:
       mail:
         smtp:
@@ -29,9 +29,9 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://discovery-service:8761/eureka
+      defaultZone: http://discovery-service:${SERVICE_DISCOVERY_PORT}/eureka
     register-with-eureka: true
     fetch-registry: false
 
 server:
-  port: 0
+  port: ${EMAIL_SENDER_SERVICE_PORT}

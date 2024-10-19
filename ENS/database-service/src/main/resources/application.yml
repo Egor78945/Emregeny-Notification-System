@@ -3,9 +3,9 @@ spring:
     name: database-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://postgres:5432/ens
-    username: bestuser
-    password: bestuser
+    url: jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_DATABASE}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     database: postgresql
     show-sql: true
@@ -15,13 +15,13 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://discovery-service:8761/eureka
+      defaultZone: http://discovery-service:${SERVICE_DISCOVERY_PORT}/eureka
     register-with-eureka: true
     fetch-registry: false
 
 server:
-  port: 0
+  port: ${DATABASE_SERVICE_PORT}
 
 grpc:
   server:
-    port: 9090
+    port: ${DATABASE_SERVICE_GRPC_SERVER_PORT}
