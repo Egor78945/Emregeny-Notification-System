@@ -12,7 +12,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://discovery-service:8761/eureka
+      defaultZone: http://discovery-service:${SERVICE_DISCOVERY_PORT}/eureka
 
 logging:
   level:
@@ -25,4 +25,4 @@ logging:
               RouteDefinitionLocator: INFO
 
 server:
-  port: 8080
+  port: ${API_GATEWAY_PORT}

@@ -5,54 +5,50 @@ services:
     container_name: postgres
     image: postgres
     environment:
-      POSTGRES_DB: ens
-      POSTGRES_USER: bestuser
-      POSTGRES_PASSWORD: bestuser
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - D:\postgres_datapart:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
 
   redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
+    image: redis
     environment:
-      - REDIS_PORT=6379
-      - REDIS_DATABASES=1
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_DATABASES=${REDIS_DATABASE_COUNT}
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
 
   discovery-service:
     container_name: discovery-service
     build: /discovery-service/.
-    pull_policy: always
     ports:
-      - "8761:8761"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - ${SERVICE_DISCOVERY_PORT}:${SERVICE_DISCOVERY_PORT}
 
   api-gateway-service:
     build: /api-gateway-service/.
-    ports:
-      - "8080:8080"
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SERVICE_DISCOVERY_PORT=${SERVICE_DISCOVERY_PORT}
+      - API_GATEWAY_PORT=${API_GATEWAY_PORT}
     depends_on:
       - discovery-service
+    ports:
+      - ${API_GATEWAY_PORT}:${API_GATEWAY_PORT}
 
   rabbitmq:
     image: rabbitmq
     container_name: rabbitmq
     environment:
-      - RABBITMQ_DEFAULT_USER=bestuser
-      - RABBITMQ_DEFAULT_PASS=bestuser
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
     ports:
-      - "5672:5672"
+      - ${RABBITMQ_PORT}:${RABBITMQ_PORT}
 
   user-api-service:
     container_name: user-api-service
     build: /user-api-service/.
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - rabbitmq
       - api-gateway-service
@@ -62,7 +58,6 @@ services:
     container_name: database-service
     build: database-service/.
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/ens
     depends_on:
       - api-gateway-service
@@ -71,7 +66,5 @@ services:
   email-sender-service:
     container_name: email-sender-service
     build: email-sender-service/.
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - user-api-service

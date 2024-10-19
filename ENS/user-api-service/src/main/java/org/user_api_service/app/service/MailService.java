@@ -23,7 +23,8 @@ public class MailService {
     private final MailMessageService mailMessageService;
 
     public Long save(MailRequestModel requestModel) throws JsonProcessingException, WrongDataException {
-        Long currentUserId = redisService.getObject("current", User.class).getId();
+        User currentUser = redisService.getObject("current", User.class);
+        Long currentUserId = currentUser.getId();
         if (MailValidationService.isValidEmail(requestModel.getMail()) && !mailGRPCService.getMailExistsRequest(requestModel.getMail(), currentUserId)) {
             redisService.saveToList("mails", requestModel.getMail());
             return mailGRPCService.addMailRequest(requestModel, currentUserId);

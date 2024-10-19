@@ -5,4 +5,11 @@ import lombok.Data;
 @Data
 public class MailRequestModel {
     private String mail;
+
+    public MailRequestModel(String mail) {
+        this.mail = mail;
+    }
+
+    public MailRequestModel() {
+    }
 }
