@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "Database Service", description = "Сервис, представляющий базу данных, храняющую информацию о пользователях, ролях пользователей и email-адреса для рассылки."))
+@OpenAPIDefinition(info = @Info(title = "DatabaseService", description = "Сервис, представляющий базу данных, храняющую информацию о пользователях, ролях пользователей и email-адреса для рассылки."))
 public class DatabaseServiceApplication {
 
     public static void main(String[] args) {

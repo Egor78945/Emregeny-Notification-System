@@ -1,5 +1,6 @@
 package org.example.email_sender_service.service.mail;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.example.email_sender_service.model.request_model.EmailMessageRequestModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -7,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
+@Schema(title = "MailMessageSender", description = "Класс, выполняющий отправку сообщений по email")
 public class MailMessageSender {
     private final String FROM;
     private final String SUBJECT;
