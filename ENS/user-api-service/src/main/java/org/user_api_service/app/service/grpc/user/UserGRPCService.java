@@ -1,4 +1,4 @@
-package org.user_api_service.app.service.grpc.user_service;
+package org.user_api_service.app.service.grpc.user;
 
 import com.example.grpc.DatabaseService;
 import com.example.grpc.UserServiceGrpc;

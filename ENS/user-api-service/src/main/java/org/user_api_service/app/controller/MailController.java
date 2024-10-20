@@ -27,7 +27,7 @@ public class MailController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<String>> getMyMails() throws RequestCancelledException, JsonProcessingException, ExecutionException, InterruptedException {
+    public ResponseEntity<List<String>> getMyMails() throws RequestCancelledException, ExecutionException, InterruptedException {
         List<String> mails = mailService.getAll().get();
         if(!mails.isEmpty()){
             return ResponseEntity.ok(mails);
@@ -43,7 +43,7 @@ public class MailController {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<String> send(@RequestParam("message") String message) throws JsonProcessingException, ExecutionException, InterruptedException {
+    public ResponseEntity<String> send(@RequestParam("message") String message) throws ExecutionException, InterruptedException {
         mailService.send(message).get();
         return ResponseEntity.ok("Message has been sent to all your mails");
     }

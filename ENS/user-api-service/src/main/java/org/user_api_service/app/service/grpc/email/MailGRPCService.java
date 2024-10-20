@@ -1,4 +1,4 @@
-package org.user_api_service.app.service.grpc.phone_number_service;
+package org.user_api_service.app.service.grpc.email;
 
 import com.example.grpc.DatabaseService;
 import com.example.grpc.MailServiceGrpc;

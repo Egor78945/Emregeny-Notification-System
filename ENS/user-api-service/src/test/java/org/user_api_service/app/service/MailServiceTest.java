@@ -11,9 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.user_api_service.app.exception.WrongDataException;
 import org.user_api_service.app.model.request_model.MailRequestModel;
 import org.user_api_service.app.model.respone_model.User;
-import org.user_api_service.app.service.grpc.phone_number_service.MailGRPCService;
+import org.user_api_service.app.service.grpc.email.MailGRPCService;
 import org.user_api_service.app.service.redis.RedisService;
-import org.user_api_service.app.service.validator.MailValidationService;
 
 @ExtendWith(MockitoExtension.class)
 public class MailServiceTest {

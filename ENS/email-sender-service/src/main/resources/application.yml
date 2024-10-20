@@ -35,3 +35,7 @@ eureka:
 
 server:
   port: ${EMAIL_SENDER_SERVICE_PORT}
+
+springdoc:
+  api-docs:
+    path: /api-docs

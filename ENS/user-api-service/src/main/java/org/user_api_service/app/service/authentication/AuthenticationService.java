@@ -16,7 +16,7 @@ import org.user_api_service.app.model.respone_model.User;
 import org.user_api_service.app.service.UserDetailsImpl;
 import org.user_api_service.app.service.UserService;
 import org.user_api_service.app.service.converter.UserConverter;
-import org.user_api_service.app.service.grpc.user_service.UserGRPCService;
+import org.user_api_service.app.service.grpc.user.UserGRPCService;
 import org.user_api_service.app.service.redis.RedisService;
 import org.user_api_service.app.service.validator.UserValidationService;
 
