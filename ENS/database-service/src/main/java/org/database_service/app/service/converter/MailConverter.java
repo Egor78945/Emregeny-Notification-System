@@ -1,6 +1,7 @@
 package org.database_service.app.service.converter;
 
 import com.example.grpc.DatabaseService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.database_service.app.model.entity.Mail;
 
 import java.util.List;

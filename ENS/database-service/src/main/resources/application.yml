@@ -25,3 +25,7 @@ server:
 grpc:
   server:
     port: ${DATABASE_SERVICE_GRPC_SERVER_PORT}
+
+springdoc:
+  api-docs:
+    path: /api-docs

@@ -1,5 +1,6 @@
 package org.database_service.app.service;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.database_service.app.exception.NotFoundException;
 import org.database_service.app.model.entity.User;
